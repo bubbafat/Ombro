@@ -11,7 +11,7 @@ using System.Windows;
 
 namespace Ombro.ViewModels
 {
-    public class SelectStationViewModel : Screen
+    public class SelectStationViewModel : Screen, IDisposable
     {
         private GeoCoordinateWatcher _loc;
         private ObservableCollection<WeatherStation> _stations = new ObservableCollection<WeatherStation>();
@@ -73,6 +73,17 @@ namespace Ombro.ViewModels
         protected override void OnActivate()
         {
             LoadStationsFromCache();
+        }
+
+        protected override void OnDeactivate(bool close)
+        {
+            if(close)
+            {
+                using (_loc) { }
+                _loc = null;
+            }
+
+            base.OnDeactivate(close);
         }
 
         public void LoadStationsFromCache()
