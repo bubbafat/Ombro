@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
+  <DefaultLanguage xmlns="" code="en-US" />
+  <App xmlns="" ProductID="{05e27b8b-8d85-44f6-97f7-197b8a857cb2}" Title="Ombro Rain Gauge" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="Devlightful Software LLC" Description="Ombro (or Ombrometer), uses USGS data to show you a rain gauge of weather from locations near you.&#xD;&#xA;&#xD;&#xA;Using your current location, you can find nearby USGS stations, select one that interests you, and see current (today) and historical (weekly) levels." Publisher="Devlightful Software LLC" PublisherID="{9dae785e-38f6-4def-aabb-bcebebb3e21d}">
+    <IconPath IsRelative="true" IsResource="false">Assets\ApplicationIcon.png</IconPath>
+    <Capabilities>
+      <Capability Name="ID_CAP_NETWORKING" />
+      <Capability Name="ID_CAP_LOCATION" />
+    </Capabilities>
+    <Tasks>
+      <DefaultTask Name="_default" NavigationPage="MainPage.xaml" />
+    </Tasks>
+    <Tokens>
+      <PrimaryToken TokenID="OmbroToken" TaskName="_default">
+        <TemplateIconic>
+          <SmallImageURI IsRelative="true" IsResource="false">Assets\Tiles\IconicTileSmall.png</SmallImageURI>
+          <Count>0</Count>
+          <IconImageURI IsRelative="true" IsResource="false">Assets\Tiles\IconicTileMediumLarge.png</IconImageURI>
+          <Title>Rain Gauge</Title>
+          <Message>
+          </Message>
+          <BackgroundColor>
+          </BackgroundColor>
+          <HasLarge>false</HasLarge>
+          <LargeContent1>
+          </LargeContent1>
+          <LargeContent2>
+          </LargeContent2>
+          <LargeContent3>
+          </LargeContent3>
+          <DeviceLockImageURI IsRelative="true" IsResource="false">
+          </DeviceLockImageURI>
+        </TemplateIconic>
+      </PrimaryToken>
+    </Tokens>
+    <ScreenResolutions>
+      <ScreenResolution Name="ID_RESOLUTION_WVGA" />
+      <ScreenResolution Name="ID_RESOLUTION_WXGA" />
+      <ScreenResolution Name="ID_RESOLUTION_HD720P" />
+    </ScreenResolutions>
+  </App>
+</Deployment>

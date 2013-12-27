@@ -1,0 +1,63 @@
+﻿<phone:PhoneApplicationPage
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:System="clr-namespace:System;assembly=mscorlib"
+    x:Class="Ombro.SelectStation"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True">
+
+    <shell:SystemTray.ProgressIndicator>
+        <shell:ProgressIndicator x:Name="LoadingIndicator" IsIndeterminate="True" IsVisible="False">
+        </shell:ProgressIndicator>
+    </shell:SystemTray.ProgressIndicator>
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--TitlePanel contains the name of the application and page title-->
+        <StackPanel Grid.Row="0" Margin="12,17,0,28">
+            <TextBlock Text="Ombro" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock Text="Select Station" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+        </StackPanel>
+
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+            <StackPanel Margin="0,0,0,72">
+                <Button x:Name="btnFindNearMe" Content="Find Near Me" HorizontalAlignment="Stretch" VerticalAlignment="Top" Click="btnFindNearMe_Click"/>
+                <ListBox x:Name="WeatherStationList" 
+                         ItemsSource="{Binding}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,63" ScrollViewer.VerticalScrollBarVisibility="Visible" Height="462" FontFamily="Portable User Interface" >
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical" Margin="10">
+                                <TextBlock Margin="2" TextWrapping="Wrap" FontFamily="Portable User Interface">
+                                    <Run Text="Source:" />
+                                    <Run Text="{Binding Source}" />
+                                    <Run Text=" " />
+                                    <Run Text="{Binding SiteNumber}" />
+                                </TextBlock>
+                                <TextBlock Text="{Binding Name}" Margin="2" TextWrapping="Wrap" FontFamily="Portable User Interface"/>
+                                <TextBlock Margin="2" FontFamily="Portable User Interface" TextWrapping="Wrap">
+                                    <Run Text="Distance Away:" />
+                                    <Run Text="{Binding Distance, StringFormat=\{0:N0\} meters}" />
+                                </TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+            <Button x:Name="btnSelect" Content="Choose" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Click="btnSelect_Click"/>
+        </Grid>
+    </Grid>
+
+</phone:PhoneApplicationPage>
