@@ -133,7 +133,7 @@ namespace Ombro.ViewModels
 
         public void ChooseStationBarAction()
         {
-            navigationService.Navigate(new Uri("/SelectStation.xaml", UriKind.Relative));
+            navigationService.UriFor<SelectStationViewModel>().Navigate();
         }
 
         public async void RefreshCurrentAction()
@@ -246,7 +246,7 @@ namespace Ombro.ViewModels
 
         public void ChooseStationAction()
         {
-            navigationService.Navigate(new Uri("/SelectStation.xaml", UriKind.Relative));
+            navigationService.UriFor<SelectStationViewModel>().Navigate();
         }
 
         public void RainGaugeLoaded()

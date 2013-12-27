@@ -6,10 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ombro", "Ombro\Ombro.csproj", "{05E27B8B-8D85-44F6-97F7-197B8A857CB2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A78AE67F-8E7A-4B89-9C47-A3A39B4C8359}"
-	ProjectSection(SolutionItems) = preProject
-		Performance1.psess = Performance1.psess
-		Performance2.psess = Performance2.psess
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,40 +1,83 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Navigation;
-using Microsoft.Phone.Controls;
+﻿using Caliburn.Micro;
 using Microsoft.Phone.Shell;
-using System.Device.Location;
-using System.Threading.Tasks;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Device.Location;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
 
-namespace Ombro
+namespace Ombro.ViewModels
 {
-    public sealed partial class SelectStation : PhoneApplicationPage, IDisposable
+    public class SelectStationViewModel : Screen
     {
         private GeoCoordinateWatcher _loc;
-        private readonly ObservableCollection<WeatherStation> _stations = new ObservableCollection<WeatherStation>();
+        private ObservableCollection<WeatherStation> _stations = new ObservableCollection<WeatherStation>();
+        private WeatherStation _selectedStation;
+
         private readonly object _listLock = new object();
+        private readonly INavigationService _navigationService;
 
-        public SelectStation()
+        public SelectStationViewModel(INavigationService navigationService)
         {
-            InitializeComponent();
-            WeatherStationList.DataContext = _stations;
-            this.Loaded += SelectStation_Loaded;
-            this.WeatherStationList.SelectionChanged += WeatherStationList_SelectionChanged;
+            _navigationService = navigationService;
+            CanFind = true;
         }
 
-        void WeatherStationList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        public ObservableCollection<WeatherStation> Stations
         {
-            this.btnSelect.IsEnabled = this.WeatherStationList.SelectedItem is WeatherStation;
+            get { return _stations; }
+            set
+            {
+                _stations = value;
+                NotifyOfPropertyChange(() => Stations);
+            }
         }
 
-        void SelectStation_Loaded(object sender, RoutedEventArgs e)
+        public WeatherStation SelectedStation
         {
-            this.btnSelect.IsEnabled = false;
+            get { return _selectedStation; }
+            set
+            {
+                _selectedStation = value;
+                NotifyOfPropertyChange(() => SelectedStation);
+                CanSelect = value != null;
+            }
+        }
+
+        private bool _canSelect;
+        public bool CanSelect
+        {
+            get { return _canSelect; }
+            set 
+            {
+                _canSelect = value;
+                NotifyOfPropertyChange(() => CanSelect);
+            }
+        }
+
+
+        private bool _canFind;
+        public bool CanFind
+        {
+            get { return _canFind; }
+            set 
+            {
+                _canFind = value;
+                NotifyOfPropertyChange(() => CanFind);
+            }
+        }
+
+        protected override void OnActivate()
+        {
+            LoadStationsFromCache();
+        }
+
+        public void LoadStationsFromCache()
+        {
+            CanSelect = false;
 
             var loadTask = WeatherStationSettings.Load();
             loadTask.ContinueWith(s =>
@@ -43,9 +86,8 @@ namespace Ombro
 
                 if (settings.NearbyStations != null)
                 {
-                    Dispatcher.BeginInvoke(() =>
+                    Execute.OnUIThread(() =>
                     {
-                        this.btnSelect.IsEnabled = false;
                         lock (_listLock)
                         {
                             _stations.Clear();
@@ -54,12 +96,12 @@ namespace Ombro
                                 this._stations.Add(station);
                             }
                         }
+                        CanSelect = false;
                     });
                 }
             },
             TaskContinuationOptions.OnlyOnRanToCompletion);
         }
-
         public void Dispose()
         {
             using (_loc) { }
@@ -67,13 +109,13 @@ namespace Ombro
             GC.SuppressFinalize(this);
         }
 
-        private void btnFindNearMe_Click(object sender, RoutedEventArgs e)
+        public void FindNearMeAction()
         {
-            this.btnFindNearMe.IsEnabled = false;
-            this.btnSelect.IsEnabled = false;
+            CanFind = false;
+            CanSelect = false;
 
             _stations.Clear();
-            this.LoadingIndicator.IsVisible = true;
+            SystemTray.ProgressIndicator.IsVisible = true;
 
             if(_loc == null)
             {
@@ -88,7 +130,7 @@ namespace Ombro
 
         private void DoneLoading(IEnumerable<WeatherStation> stationList = null)
         {
-            Dispatcher.BeginInvoke(() =>
+            Execute.OnUIThread(() =>
                 {
                     if (stationList != null)
                     {
@@ -100,9 +142,9 @@ namespace Ombro
                     }
 
                     _loc.Stop();
-                    this.LoadingIndicator.IsVisible = false;
-                    this.btnFindNearMe.IsEnabled = true;
-                    this.btnSelect.IsEnabled = false;
+                    SystemTray.ProgressIndicator.IsVisible = false;
+                    CanFind = true;
+                    CanSelect = false;
                 });
         }
 
@@ -149,7 +191,7 @@ namespace Ombro
 
         private void ShowError(Exception ex)
         {
-            Dispatcher.BeginInvoke(() =>
+            Execute.OnUIThread(() =>
                 {
                     MessageBox.Show(string.Format("Unable to load stations.\n\nNetwork data or wifi is required to load data.\n\nError message: {0}", ex.Message), "Error", MessageBoxButton.OK);
                 });
@@ -184,27 +226,27 @@ namespace Ombro
             }
         }
 
-        private void btnSelect_Click(object sender, RoutedEventArgs e)
+        public void SelectAction()
         {
             lock (_listLock)
             {
-                if (this.WeatherStationList.SelectedItem is WeatherStation)
+                if (SelectedStation is WeatherStation)
                 {
                     WeatherStationSettings settings = new WeatherStationSettings(
-                        this.WeatherStationList.SelectedItem as WeatherStation, this._stations);
+                        SelectedStation, _stations);
                     
                     var saveTask = settings.Save();
                     saveTask.ContinueWith(a =>
                         {
-                            Dispatcher.BeginInvoke(() =>
+                            Execute.OnUIThread(() =>
                                 {
-                                    if (NavigationService.CanGoBack)
+                                    if (_navigationService.CanGoBack)
                                     {
-                                        NavigationService.GoBack();
+                                        _navigationService.GoBack();
                                     }
                                     else
                                     {
-                                        NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+                                        _navigationService.UriFor<MainPageViewModel>().Navigate();
                                     }
                                 });
                         },

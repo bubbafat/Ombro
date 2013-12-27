@@ -6,7 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:System="clr-namespace:System;assembly=mscorlib"
-    x:Class="Ombro.SelectStation"
+    xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+    x:Class="Ombro.Views.SelectStationView"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -34,9 +35,14 @@
 
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
             <StackPanel Margin="0,0,0,72">
-                <Button x:Name="btnFindNearMe" Content="Find Near Me" HorizontalAlignment="Stretch" VerticalAlignment="Top" Click="btnFindNearMe_Click"/>
-                <ListBox x:Name="WeatherStationList" 
-                         ItemsSource="{Binding}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,63" ScrollViewer.VerticalScrollBarVisibility="Visible" Height="462" FontFamily="Portable User Interface" >
+                <Button x:Name="FindNearMeAction" IsEnabled="{Binding CanFind, Mode=OneWay}" Content="Find Near Me" HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
+                <ListBox x:Name="Stations" 
+                         VerticalAlignment="Stretch" 
+                         HorizontalAlignment="Stretch" 
+                         Margin="0,0,0,63" 
+                         ScrollViewer.VerticalScrollBarVisibility="Visible" 
+                         Height="462" 
+                         FontFamily="Portable User Interface">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Vertical" Margin="10">
@@ -55,8 +61,9 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
+
             </StackPanel>
-            <Button x:Name="btnSelect" Content="Choose" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Click="btnSelect_Click"/>
+            <Button x:Name="SelectAction" IsEnabled="{Binding CanSelect, Mode=OneWay}" Content="Choose" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
         </Grid>
     </Grid>
 

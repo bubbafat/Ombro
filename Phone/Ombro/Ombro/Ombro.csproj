@@ -95,9 +95,11 @@
     </Compile>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="BooleanToVisibilityConverter.cs" />
+    <Compile Include="CMDebugLogger.cs" />
     <Compile Include="GpsBoundingBoxBuilder.cs" />
     <Compile Include="IsolatedStorageOperations.cs" />
     <Compile Include="LocalizedStrings.cs" />
+    <Compile Include="ViewModels\SelectStationViewModel.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -110,8 +112,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="SelectStation.xaml.cs">
-      <DependentUpon>SelectStation.xaml</DependentUpon>
+    <Compile Include="Views\SelectStationView.xaml.cs">
+      <DependentUpon>SelectStationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TsvParser.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
@@ -132,7 +134,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SelectStation.xaml">
+    <Page Include="Views\SelectStationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

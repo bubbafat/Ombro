@@ -19,6 +19,16 @@ namespace Ombro
             container = new PhoneContainer();
             container.RegisterPhoneServices(RootFrame);
             container.PerRequest<MainPageViewModel>();
+            container.PerRequest<SelectStationViewModel>();
+
+#if DEBUG
+            LogManager.GetLog = type => new DebugLogger(type);
+#else
+            if (System.Diagnostics.Debugger.IsAttached)
+            {
+                LogManager.GetLog = type => new DebugLogger(type);
+            }
+#endif
 
             AddCustomConventions();
         }
