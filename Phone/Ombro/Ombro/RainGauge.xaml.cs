@@ -12,58 +12,47 @@ namespace Ombro
 {
     public partial class RainGauge : UserControl
     {
+        private const double MaxDepth = 5.0;
+
         public RainGauge()
         {
             InitializeComponent();
-            this.DataContext = this;
-            this.LayoutUpdated += RainGauge_LayoutUpdated;
-        }
-
-        void RainGauge_LayoutUpdated(object sender, EventArgs e)
-        {
-
-        }
-
-        public static readonly DependencyProperty MaxDepthProperty =
-            DependencyProperty.Register("MaxDepth", typeof(Double), typeof(RainGauge), new PropertyMetadata(null));
-
-        public Double MaxDepth
-        {
-            get { return (Double)GetValue(MaxDepthProperty); }
-            set { SetValue(MaxDepthProperty, value); }
         }
 
         public static readonly DependencyProperty DepthProperty =
-            DependencyProperty.Register("Depth", typeof(Double), typeof(RainGauge), new PropertyMetadata(null));
+            DependencyProperty.Register("Depth", typeof(Double), typeof(RainGauge), new PropertyMetadata(OnDepthPropertyChanged));
+
+        private static void OnDepthPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            RainGauge gauge = (RainGauge)d;
+            Double value = (Double)e.NewValue;
+
+            double newWaterHeight;
+
+            if (value >= MaxDepth)
+            {
+                newWaterHeight = gauge.ActualHeight;
+            }
+            else if (value <= 0.0)
+            {
+                newWaterHeight = 0.0;
+            }
+            else
+            {
+                double percentage = value / MaxDepth;
+                newWaterHeight = percentage * gauge.ActualHeight;
+            }
+
+            gauge.DepthAnimation.From = gauge.Water.Height;
+            gauge.DepthAnimation.To = newWaterHeight;
+
+            gauge.ChangeDepthStoryboard.Begin();
+        }
 
         public Double Depth
         {
             get { return (Double)GetValue(DepthProperty); }
-            set
-            {
-                double newWaterHeight;
-
-                if(value >= MaxDepth)
-                {
-                    newWaterHeight = this.ActualHeight;
-                }
-                else if (value <= 0.0)
-                {
-                    newWaterHeight = 0.0;
-                }
-                else
-                {
-                    double percentage = value / MaxDepth;
-                    newWaterHeight = percentage * this.ActualHeight;
-                }
-
-                this.DepthAnimation.From = this.Water.Height;
-                this.DepthAnimation.To = newWaterHeight;
-
-                SetValue(DepthProperty, value);
-
-                this.ChangeDepthStoryboard.Begin();
-            }
+            set { SetValue(DepthProperty, value); }
         }
     }
 }
