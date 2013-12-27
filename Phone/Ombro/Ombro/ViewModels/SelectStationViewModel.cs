@@ -3,6 +3,7 @@ using Microsoft.Phone.Shell;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Device.Location;
 using System.Linq;
 using System.Text;
@@ -136,7 +137,8 @@ namespace Ombro.ViewModels
                 _loc.PositionChanged += _loc_PositionChanged;
             }
 
-            _loc.Start();
+            Task geo = Task.Run(() => _loc.Start());
+            geo.Wait(TimeSpan.FromSeconds(30));
         }
 
         private void DoneLoading(IEnumerable<WeatherStation> stationList = null)

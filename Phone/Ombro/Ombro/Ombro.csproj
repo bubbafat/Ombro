@@ -141,6 +141,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Ombro_2013_12_27_16_37_45.sap" />
+    <None Include="Ombro_2013_12_27_16_41_35.sap" />
+    <None Include="Ombro_2013_12_27_16_55_49.sap" />
     <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml" />
     <None Include="Properties\WMAppManifest.xml">
