@@ -17,6 +17,13 @@ namespace Ombro
         public RainGauge()
         {
             InitializeComponent();
+
+            this.SizeChanged += RainGauge_SizeChanged;
+        }
+
+        void RainGauge_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            Resize(Depth);
         }
 
         public static readonly DependencyProperty DepthProperty =
@@ -27,11 +34,22 @@ namespace Ombro
             RainGauge gauge = (RainGauge)d;
             Double value = (Double)e.NewValue;
 
+            gauge.Resize(value);
+        }
+
+        public Double Depth
+        {
+            get { return (Double)GetValue(DepthProperty); }
+            set { SetValue(DepthProperty, value); }
+        }
+
+        private void Resize(Double value)
+        {
             double newWaterHeight;
 
             if (value >= MaxDepth)
             {
-                newWaterHeight = gauge.ActualHeight;
+                newWaterHeight = this.ActualHeight;
             }
             else if (value <= 0.0)
             {
@@ -40,19 +58,14 @@ namespace Ombro
             else
             {
                 double percentage = value / MaxDepth;
-                newWaterHeight = percentage * gauge.ActualHeight;
+                newWaterHeight = percentage * this.ActualHeight;
             }
 
-            gauge.DepthAnimation.From = gauge.Water.Height;
-            gauge.DepthAnimation.To = newWaterHeight;
+            this.DepthAnimation.From = this.Water.Height;
+            this.DepthAnimation.To = newWaterHeight;
 
-            gauge.ChangeDepthStoryboard.Begin();
+            this.ChangeDepthStoryboard.Begin();
         }
 
-        public Double Depth
-        {
-            get { return (Double)GetValue(DepthProperty); }
-            set { SetValue(DepthProperty, value); }
-        }
     }
 }
