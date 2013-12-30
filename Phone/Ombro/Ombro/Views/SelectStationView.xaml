@@ -55,7 +55,7 @@
                                 <TextBlock Text="{Binding Name}" Margin="2" TextWrapping="Wrap" FontFamily="Portable User Interface"/>
                                 <TextBlock Margin="2" FontFamily="Portable User Interface" TextWrapping="Wrap">
                                     <Run Text="Distance Away:" />
-                                    <Run Text="{Binding Distance, StringFormat=\{0:N0\} meters}" />
+                                    <Run Text="{Binding DistanceMiles, StringFormat=\{0:N2\} miles}" FontFamily="Portable User Interface" />
                                 </TextBlock>
                             </StackPanel>
                         </DataTemplate>

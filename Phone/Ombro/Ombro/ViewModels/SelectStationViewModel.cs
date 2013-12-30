@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Ombro.ViewModels
 {
@@ -163,7 +164,9 @@ namespace Ombro.ViewModels
 
         void _loc_PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
         {
-            var getListTask = new Task<Ombro.WeatherStationRepository.RequestState>(() => WeatherStationRepository.GetStationsNear(e.Position, 50));
+            double kmDistance = DistanceConverter.MilesToKM(AppSettings.GetValue<double>(OmbroSettings.SearchDistanceMiles, 50));
+
+            var getListTask = new Task<Ombro.WeatherStationRepository.RequestState>(() => WeatherStationRepository.GetStationsNear(e.Position, kmDistance));
 
             getListTask.ContinueWith(request =>
                     {
@@ -191,6 +194,8 @@ namespace Ombro.ViewModels
                                     foreach (var s in request.Result.Stations)
                                     {
                                         s.Distance = (long)e.Position.Location.GetDistanceTo(s.Location);
+                                        double km = s.Distance / 1000;
+                                        s.DistanceMiles = DistanceConverter.KMtoMiles(km);
                                         newList.Add(s);
                                     }
                                     DoneLoading(newList.OrderBy(s => s.Distance));

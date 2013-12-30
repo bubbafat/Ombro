@@ -67,11 +67,17 @@
                 x:Name="RainGauge" 
                 Height="Auto"
                 Width="Auto"
-                Depth="{Binding StationDepth7}"
+                Depth="{Binding Depth}"
                 Margin="31,15,31,30"
                 cal:Message.Attach="[Event Loaded] = [Action RainGaugeLoaded]"/>
             <Grid Grid.Column="1" Margin="10,15,0,30">
                 <StackPanel VerticalAlignment="Top" Visibility="{Binding NotShowHelp, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap">
+                        <Run Text="{Binding Depth, StringFormat=\{0:N2\}}" />
+                        <Run Text="inches in the last" />
+                        <Run Text="{Binding DaysShown}" />
+                        <Run Text="days" />
+                    </TextBlock>
                     <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding StationDepth1, StringFormat=\{0:N2\} Today}"/>
                     <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding StationDepth7, StringFormat=\{0:N2\} This Week}"/>
                     <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding StationSource}" />
@@ -96,9 +102,17 @@
             </Grid>
         </Grid>
 
+
         <bab:BindableAppBar x:Name="AppBar">
             <bab:BindableAppBarMenuItem x:Name="ChooseStationBarAction"
                                   Text="Choose Station"
+                                  />
+            <bab:BindableAppBarMenuItem x:Name="RateMyAppAction"
+                                  Text="Rate My App"
+                                  />
+
+            <bab:BindableAppBarMenuItem x:Name="SettingsBarAction"
+                                  Text="Settings"
                                   />
         </bab:BindableAppBar>
     </Grid>

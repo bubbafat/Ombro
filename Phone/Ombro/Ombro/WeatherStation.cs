@@ -27,6 +27,7 @@ namespace Ombro
         public double Precipitation6 { get; set; }
         public double Precipitation7 { get; set; }
         public long Distance { get; set; }
+        public double DistanceMiles { get; set; }
         public DateTime ResultTime { get; set; }
         public DateTime LastRefreshUTC { get; set; }
     }

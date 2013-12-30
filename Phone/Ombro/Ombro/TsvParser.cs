@@ -206,6 +206,11 @@ USGS	372543079295400	METEOROLOGICAL STATION NEAR BEDFORD, VA	01	p24h_va	00045	20
 
         internal static List<WeatherStation> ParseStations(string p)
         {
+            if(p.Contains("No sites were found that meet the following criteria"))
+            {
+                return new List<WeatherStation>();
+            }
+
             var stationData = new Dictionary<string, WeatherStation>();
             string[] header = null;
             string[] format = null;

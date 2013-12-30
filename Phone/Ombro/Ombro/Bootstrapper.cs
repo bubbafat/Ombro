@@ -7,6 +7,7 @@ using Caliburn.Micro;
 using Ombro.ViewModels;
 using Caliburn.Micro.BindableAppBar;
 using System.Windows.Controls;
+using Microsoft.Phone.Controls;
 
 namespace Ombro
 {
@@ -20,6 +21,11 @@ namespace Ombro
             container.RegisterPhoneServices(RootFrame);
             container.PerRequest<MainPageViewModel>();
             container.PerRequest<SelectStationViewModel>();
+
+            container.PerRequest<AboutViewModel>();
+//            var settings = container.RegisterSettingsService();
+
+            //settings.RegisterCommand<AboutViewModel>("About");
 
 #if DEBUG
             LogManager.GetLog = type => new DebugLogger(type);
@@ -40,6 +46,17 @@ namespace Ombro
                 Control.IsEnabledProperty, "DataContext", "Click");
             ConventionManager.AddElementConvention<BindableAppBarMenuItem>(
                 Control.IsEnabledProperty, "DataContext", "Click");
+
+            ConventionManager.AddElementConvention<ListPicker>(ListPicker.ItemsSourceProperty, "SelectedItem", "SelectionChanged")
+                .ApplyBinding = (viewModelType, path, property, element, convention) =>
+                {
+                    if (ConventionManager.GetElementConvention(typeof(ItemsControl)).ApplyBinding(viewModelType, path, property, element, convention))
+                    {
+                        ConventionManager.ConfigureSelectedItem(element, ListPicker.SelectedItemProperty, viewModelType, path);
+                        return true;
+                    }
+                    return false;
+                };
         }
 
         protected override object GetInstance(Type service, string key)

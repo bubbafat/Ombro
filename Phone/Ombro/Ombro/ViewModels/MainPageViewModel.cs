@@ -1,7 +1,9 @@
 ﻿using Caliburn.Micro;
 using Microsoft.Phone.Shell;
+using Microsoft.Phone.Tasks;
 using System;
 using System.Collections.Generic;
+using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,6 +36,8 @@ namespace Ombro.ViewModels
         private string _lastUpdateDisplay;
         private double _stationDepth1;
         private double _stationDepth7;
+        private double _depth;
+        private int _daysShown;
 
         public string LastUpdateDisplay
         {
@@ -42,6 +46,26 @@ namespace Ombro.ViewModels
             {
                 _lastUpdateDisplay = value;
                 NotifyOfPropertyChange(() => LastUpdateDisplay);
+            }
+        }
+
+        public int DaysShown
+        {
+            get { return _daysShown; }
+            set
+            {
+                _daysShown = value;
+                NotifyOfPropertyChange(() => DaysShown);
+            }
+        }
+
+        public double Depth
+        {
+            get { return _depth; }
+            set
+            {
+                _depth = value;
+                NotifyOfPropertyChange(() => Depth);
             }
         }
 
@@ -136,6 +160,17 @@ namespace Ombro.ViewModels
             navigationService.UriFor<SelectStationViewModel>().Navigate();
         }
 
+        public void RateMyAppAction()
+        {
+            var marketplace = new MarketplaceReviewTask();
+            marketplace.Show();
+        }
+
+        public void SettingsBarAction()
+        {
+            navigationService.UriFor<AboutViewModel>().Navigate();
+        }
+
         public async void RefreshCurrentAction()
         {
             await RefreshCurrentSelection();
@@ -204,6 +239,8 @@ namespace Ombro.ViewModels
             {
                 this.StationDepth1 = current.Precipitation1;
                 this.StationDepth7 = current.Precipitation7;
+                this.DaysShown = AppSettings.GetValue<int>(OmbroSettings.DaysOfRainToShow, 3);
+                this.Depth = AssignProperDepth(current);
                 this.StationSource = current.Source;
                 this.StationID = current.SiteNumber;
                 this.StationName = current.Name;
@@ -215,6 +252,30 @@ namespace Ombro.ViewModels
             if (_cache != null)
             {
                 await _cache.Save(true);
+            }
+        }
+
+        private double AssignProperDepth(WeatherStation station)
+        {
+            switch(DaysShown)
+            {
+                case 1:
+                    return station.Precipitation1;
+                case 2:
+                    return station.Precipitation2;
+                case 3:
+                    return station.Precipitation3;
+                case 4:
+                    return station.Precipitation4;
+                case 5:
+                    return station.Precipitation5;
+                case 6:
+                    return station.Precipitation6;
+                case 7:
+                    return station.Precipitation7;
+                default:
+                    DaysShown = 3;
+                    return station.Precipitation3;
             }
         }
 
