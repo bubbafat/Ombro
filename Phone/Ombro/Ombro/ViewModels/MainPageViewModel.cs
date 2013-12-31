@@ -168,6 +168,11 @@ namespace Ombro.ViewModels
 
         public void SettingsBarAction()
         {
+            navigationService.UriFor<SettingsViewModel>().Navigate();
+        }
+
+        public void AboutAction()
+        {
             navigationService.UriFor<AboutViewModel>().Navigate();
         }
 

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Device.Location;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -132,7 +133,10 @@ namespace Ombro.ViewModels
 
             if(_loc == null)
             {
-                _loc = new GeoCoordinateWatcher();
+                // simulating location requires high accuracy
+                GeoPositionAccuracy accuracy = Debugger.IsAttached ? GeoPositionAccuracy.High : GeoPositionAccuracy.Default;
+                _loc = new GeoCoordinateWatcher(accuracy);
+
                 _loc.MovementThreshold = 1000;
                 _loc.StatusChanged += _loc_StatusChanged;
                 _loc.PositionChanged += _loc_PositionChanged;

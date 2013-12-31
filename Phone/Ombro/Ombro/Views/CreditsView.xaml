@@ -1,5 +1,5 @@
 ﻿<phone:PhoneApplicationPage
-    x:Class="Ombro.Views.AboutView"
+    x:Class="Ombro.Views.CreditsView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
@@ -23,29 +23,28 @@
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
             <TextBlock Text="Ombro Rain Gauge" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock Text="about" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+            <TextBlock Text="credits" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <ListBox x:Name="AboutItems" 
+            <ListBox x:Name="CreditItems" 
                              VerticalAlignment="Stretch" 
                              HorizontalAlignment="Stretch" 
+                             Margin="0,0,0,63" 
                              ScrollViewer.VerticalScrollBarVisibility="Visible" 
-                             FontFamily="Portable User Interface" Margin="0,0,0,75">
+                             Height="519" 
+                             FontFamily="Portable User Interface">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Vertical" Margin="10">
                             <TextBlock Text="{Binding Title}" Margin="2" TextWrapping="Wrap" FontFamily="Portable User Interface"/>
                             <TextBlock Text="{Binding Body}" Margin="2" TextWrapping="Wrap" FontFamily="Portable User Interface"/>
+                            <TextBlock Text="{Binding Uri}" Margin="2" TextWrapping="Wrap" FontFamily="Portable User Interface"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <Button 
-                    VerticalAlignment="Bottom"
-                    x:Name="CreditsAction" 
-                    Content="Credits" />
         </Grid>
     </Grid>
 

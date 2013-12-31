@@ -2,111 +2,72 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
+using Windows.ApplicationModel;
 
 namespace Ombro.ViewModels
 {
     public class AboutViewModel : PropertyChangedBase
     {
-        private ObservableCollection<DistanceDisplay> _distance = new ObservableCollection<DistanceDisplay>();
-        private DistanceDisplay _selectedDistance;
+        private ObservableCollection<AboutItem> _abouts = new ObservableCollection<AboutItem>();
+        private readonly INavigationService navigationService;
 
-        private ObservableCollection<DaysDisplay> _days = new ObservableCollection<DaysDisplay>();
-        private DaysDisplay _selectedDay;
-
-
-        public AboutViewModel()
+        public AboutViewModel(INavigationService navigationService)
         {
-            _distance.Add(new DistanceDisplay(1));
-            _distance.Add(new DistanceDisplay(5));
-            _distance.Add(new DistanceDisplay(10));
-            _distance.Add(new DistanceDisplay(25));
+            this.navigationService = navigationService;
 
-            var distanceSetting =  AppSettings.GetValue<double>(OmbroSettings.SearchDistanceMiles, 50);
-
-            SelectedDistance =
-                _distance.Where(d => d.DistanceMiles == distanceSetting).FirstOrDefault();
-
-            if(SelectedDistance == null)
-            {
-                SelectedDistance = _distance.Where(d => d.DistanceMiles == 25).First();
-            }
-
-            _days.Add(new DaysDisplay(1));
-            _days.Add(new DaysDisplay(2));
-            _days.Add(new DaysDisplay(3));
-            _days.Add(new DaysDisplay(4));
-            _days.Add(new DaysDisplay(5));
-            _days.Add(new DaysDisplay(6));
-            _days.Add(new DaysDisplay(7));
-
-            var daySetting = AppSettings.GetValue<int>(OmbroSettings.DaysOfRainToShow, 3);
-
-            SelectedDay =
-                _days.Where(d => d.Days == daySetting).FirstOrDefault();
-
-            if (SelectedDay == null)
-            {
-                SelectedDay = _days.Where(d => d.Days == 3).First();
-            }
-
-        }
-
-        public ObservableCollection<DaysDisplay> Days
-        {
-            get { return _days; }
-            set
-            {
-                _days = value;
-                NotifyOfPropertyChange(() => Days);
-            }
-        }
-
-        public DaysDisplay SelectedDay
-        {
-            get { return _selectedDay; }
-            set
-            {
-                _selectedDay = value;
-
-                if (_selectedDay != null)
+            _abouts.Add(
+                new AboutItem
                 {
-                    AppSettings.AddOrUpdate(OmbroSettings.DaysOfRainToShow, _selectedDay.Days);
-                }
-
-                NotifyOfPropertyChange(() => SelectedDay);
-            }
-        }
-
-
-        public ObservableCollection<DistanceDisplay> Distances
-        {
-            get { return _distance; }
-            set
-            {
-                _distance = value;
-                NotifyOfPropertyChange(() => Distances);
-            }
-        }
-
-        public DistanceDisplay SelectedDistance
-        {
-            get { return _selectedDistance; }
-            set
-            {
-                _selectedDistance = value;
-
-                if (_selectedDistance != null)
+                    Title = "Publisher",
+                    Body = GetManifestInfo("Publisher")
+                });
+            _abouts.Add(
+                new AboutItem
                 {
-                    AppSettings.AddOrUpdate(OmbroSettings.SearchDistanceMiles, _selectedDistance.DistanceMiles);
-                }
+                    Title = "Author",
+                    Body = GetManifestInfo("Author")
+                });
+            _abouts.Add(
+                new AboutItem
+                {
+                    Title = "Version",
+                    Body = GetManifestInfo("Version"),
+                });
+            _abouts.Add(
+                new AboutItem
+                {
+                    Title = "Privacy Policy",
+                    Body = "We respect your privacy.  We don't collect information about you or your device, we don't track you or your app usage, we don't share your data.  We only connect to the USGS servers to download weather station data."
+                });
+        }
 
-                NotifyOfPropertyChange(() => SelectedDistance);
+        private static string GetManifestInfo(string part)
+        {
+            return (from manifest in System.Xml.Linq.XElement.Load("WMAppManifest.xml").Descendants("App") select manifest).SingleOrDefault().Attribute(part).Value.ToString();
+        }
+
+        public ObservableCollection<AboutItem> AboutItems
+        {
+            get { return _abouts; }
+            set
+            {
+                _abouts = value;
+                NotifyOfPropertyChange(() => AboutItems);
             }
         }
+
+        public void CreditsAction()
+        {
+            navigationService.UriFor<CreditsViewModel>().Navigate();
+        }
+    }
+
+    public class AboutItem
+    {
+        public string Title { get; set; }
+        public string Body { get; set; }
     }
 }

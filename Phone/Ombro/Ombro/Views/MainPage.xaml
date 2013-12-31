@@ -107,12 +107,17 @@
             <bab:BindableAppBarMenuItem x:Name="ChooseStationBarAction"
                                   Text="Choose Station"
                                   />
+
+            <bab:BindableAppBarMenuItem x:Name="SettingsBarAction"
+                                  Text="Settings"
+                                  />
+
             <bab:BindableAppBarMenuItem x:Name="RateMyAppAction"
                                   Text="Rate My App"
                                   />
 
-            <bab:BindableAppBarMenuItem x:Name="SettingsBarAction"
-                                  Text="Settings"
+            <bab:BindableAppBarMenuItem x:Name="AboutAction"
+                                  Text="About"
                                   />
         </bab:BindableAppBar>
     </Grid>

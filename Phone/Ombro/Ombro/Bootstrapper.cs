@@ -21,11 +21,9 @@ namespace Ombro
             container.RegisterPhoneServices(RootFrame);
             container.PerRequest<MainPageViewModel>();
             container.PerRequest<SelectStationViewModel>();
-
+            container.PerRequest<SettingsViewModel>();
             container.PerRequest<AboutViewModel>();
-//            var settings = container.RegisterSettingsService();
-
-            //settings.RegisterCommand<AboutViewModel>("About");
+            container.PerRequest<CreditsViewModel>();
 
 #if DEBUG
             LogManager.GetLog = type => new DebugLogger(type);
