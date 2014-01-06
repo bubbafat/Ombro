@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
   <DefaultLanguage xmlns="" code="en-US" />
-  <App xmlns="" ProductID="{05e27b8b-8d85-44f6-97f7-197b8a857cb2}" Title="Ombro Rain Gauge" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="Devlightful Software LLC" Description="Ombro (or Ombrometer), uses USGS data to show you a rain gauge of weather from locations near you.&#xD;&#xA;&#xD;&#xA;Using your current location, you can find nearby USGS stations, select one that interests you, and see current (today) and historical (weekly) levels." Publisher="Devlightful Software LLC" PublisherID="{9dae785e-38f6-4def-aabb-bcebebb3e21d}">
+  <App xmlns="" ProductID="{efd26e11-dbf8-48b2-9351-583a12be85fa}" Title="Ombro Rain Gauge" RuntimeType="Silverlight" Version="1.0.0.1" Genre="apps.normal" Author="Devlightful Software LLC" Description="Ombro (or Ombrometer), uses USGS data to show you a rain gauge of weather from locations near you.&#xD;&#xA;&#xD;&#xA;Using your current location, you can find nearby USGS stations, select one that interests you, and see current (today) and historical (weekly) levels." Publisher="Devlightful Software LLC" PublisherID="{c16033cf-6b2f-4577-abe0-b5bd5a70a945}">
     <IconPath IsRelative="true" IsResource="false">Assets\ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />

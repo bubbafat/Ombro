@@ -54,7 +54,7 @@
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
             <TextBlock Text="Ombro" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock Text="Rain Gauge" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+            <TextBlock Text="rain gauge" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
@@ -103,7 +103,7 @@
         </Grid>
 
 
-        <bab:BindableAppBar x:Name="AppBar">
+        <bab:BindableAppBar x:Name="AppBar" FontFamily="Portable User Interface">
             <bab:BindableAppBarMenuItem x:Name="ChooseStationBarAction"
                                   Text="Choose Station"
                                   />
@@ -113,7 +113,11 @@
                                   />
 
             <bab:BindableAppBarMenuItem x:Name="RateMyAppAction"
-                                  Text="Rate My App"
+                                  Text="Rate Ombro Rain Gauge"
+                                  />
+
+            <bab:BindableAppBarMenuItem x:Name="BuyMeABeerAction"
+                                  Text="Buy Me a Drink"
                                   />
 
             <bab:BindableAppBarMenuItem x:Name="AboutAction"

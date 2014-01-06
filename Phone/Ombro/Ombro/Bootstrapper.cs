@@ -24,6 +24,7 @@ namespace Ombro
             container.PerRequest<SettingsViewModel>();
             container.PerRequest<AboutViewModel>();
             container.PerRequest<CreditsViewModel>();
+            container.PerRequest<BuyMeABeerViewModel>();
 
 #if DEBUG
             LogManager.GetLog = type => new DebugLogger(type);

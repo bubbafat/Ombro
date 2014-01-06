@@ -176,6 +176,11 @@ namespace Ombro.ViewModels
             navigationService.UriFor<AboutViewModel>().Navigate();
         }
 
+        public void BuyMeABeerAction()
+        {
+            navigationService.UriFor<BuyMeABeerViewModel>().Navigate();
+        }
+
         public async void RefreshCurrentAction()
         {
             await RefreshCurrentSelection();

@@ -28,20 +28,23 @@
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <ListBox x:Name="AboutItems" 
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <ItemsControl x:Name="AboutItems"
                              VerticalAlignment="Stretch" 
                              HorizontalAlignment="Stretch" 
-                             ScrollViewer.VerticalScrollBarVisibility="Visible" 
-                             FontFamily="Portable User Interface" Margin="0,0,0,75">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Vertical" Margin="10">
-                            <TextBlock Text="{Binding Title}" Margin="2" TextWrapping="Wrap" FontFamily="Portable User Interface"/>
-                            <TextBlock Text="{Binding Body}" Margin="2" TextWrapping="Wrap" FontFamily="Portable User Interface"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+                             FontFamily="Portable User Interface" 
+                              Margin="0,0,0,75">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical" Margin="10">
+                                <TextBlock Text="{Binding Title}" Margin="2" TextWrapping="Wrap" FontFamily="Portable User Interface"/>
+                                <TextBlock Text="{Binding Body}" Margin="2" TextWrapping="Wrap" FontFamily="Portable User Interface"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
             <Button 
                     VerticalAlignment="Bottom"
                     x:Name="CreditsAction" 

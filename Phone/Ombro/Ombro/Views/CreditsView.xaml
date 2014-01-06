@@ -28,23 +28,20 @@
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <ListBox x:Name="CreditItems" 
-                             VerticalAlignment="Stretch" 
-                             HorizontalAlignment="Stretch" 
-                             Margin="0,0,0,63" 
-                             ScrollViewer.VerticalScrollBarVisibility="Visible" 
-                             Height="519" 
-                             FontFamily="Portable User Interface">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Vertical" Margin="10">
-                            <TextBlock Text="{Binding Title}" Margin="2" TextWrapping="Wrap" FontFamily="Portable User Interface"/>
-                            <TextBlock Text="{Binding Body}" Margin="2" TextWrapping="Wrap" FontFamily="Portable User Interface"/>
-                            <TextBlock Text="{Binding Uri}" Margin="2" TextWrapping="Wrap" FontFamily="Portable User Interface"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <ItemsControl x:Name="CreditItems">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical" Margin="10">
+                                <TextBlock Text="{Binding Title}" Margin="2" TextWrapping="Wrap" FontFamily="Portable User Interface"/>
+                                <TextBlock Text="{Binding Body}" Margin="2" TextWrapping="Wrap" FontFamily="Portable User Interface"/>
+                                <TextBlock Text="{Binding Uri}" Margin="2" TextWrapping="Wrap" FontFamily="Portable User Interface"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
         </Grid>
     </Grid>
 
