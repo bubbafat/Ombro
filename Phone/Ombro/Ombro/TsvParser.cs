@@ -302,17 +302,24 @@ USGS	372543079295400	METEOROLOGICAL STATION NEAR BEDFORD, VA	01	p24h_va	00045	20
             return stationData.Values.Where(s => s.SiteNumber != null).ToList();
         }
 
-        private static T GetData<T>(string[] header, string[] data, string headerName)
+        private static T GetData<T>(string[] header, string[] data, string headerName, T defaultValue = default(T))
         {
             for(int i = 0; i < header.Length; i++)
             {
                 if(header[i].Equals(headerName, StringComparison.InvariantCultureIgnoreCase))
                 {
-                    return (T)Convert.ChangeType(data[i], typeof(T));
+                    try
+                    {
+                        return (T)Convert.ChangeType(data[i], typeof(T));
+                    }
+                    catch(Exception ex)
+                    {
+                        return defaultValue;
+                    }
                 }
             }
 
-            return default(T);
+            return defaultValue;
         }
     }
 }
